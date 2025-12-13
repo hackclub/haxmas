@@ -167,3 +167,5 @@ export default function Home() {
 ```
 
 **If you have questions, dm @hna on Slack!**
+
+**Submit at https://forms.hackclub.com/haxmas-day-1**
