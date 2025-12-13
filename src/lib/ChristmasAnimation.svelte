@@ -857,7 +857,7 @@
         <!-- Presents on snow -->
         <g id="presents" transform="translate(0, -80)">
             <!-- Present 1 - Day 1 -->
-            <a href="/day1" class="present-link">
+            <a href="/day/1" class="present-link">
                 <g class="present">
                     <text x="190" y="885" text-anchor="middle" fill="#4285f4" font-size="24" font-weight="bold">Day 1</text>
                     <rect x="150" y="900" width="80" height="60" fill="hsla(-150, 45%, 45%, 1)" />

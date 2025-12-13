@@ -4,6 +4,8 @@
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
 
+	let { data } = $props();
+
 	let markdownContent = $state('');
 	let htmlContent = $state('');
 
@@ -18,7 +20,7 @@
 	);
 
 	onMount(async () => {
-		const res = await fetch('https://raw.githubusercontent.com/hackclub/hackmas-day-1/refs/heads/main/README.md');
+		const res = await fetch(`https://raw.githubusercontent.com/hackclub/hackmas-day-${data.day}/refs/heads/main/README.md`);
 		if (res.ok) {
 			markdownContent = await res.text();
 			htmlContent = await marked(markdownContent);
@@ -27,7 +29,7 @@
 </script>
 
 <svelte:head>
-	<title>Day 1 | Haxmas</title>
+	<title>Day {data.day} | Haxmas</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
 </svelte:head>
 
