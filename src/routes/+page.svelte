@@ -111,6 +111,9 @@
 	function credits() {
 		window.location.href = '/credits';
 	}
+	function shop() {
+		window.location.href = '/credits';
+	}
 </script>
 
 <ChristmasAnimationNoPresents />
@@ -131,7 +134,7 @@
 
 	<div class="button-container">
 		<Button on:click={goToDays}>Submit</Button>
-		<Button on:click={comingSoon}>Shop</Button>
+		<Button on:click={shop}>Shop</Button>
 		<Button on:click={faq}>FAQ</Button>
 		<Button on:click={credits}>Credits</Button>
 		<Button href="/auth/logout">Log Out</Button>
