@@ -5,6 +5,7 @@
 ## Setup
 ```bash
 
+npx knex migrate:latest
 npm i
 npm run dev
 ```
