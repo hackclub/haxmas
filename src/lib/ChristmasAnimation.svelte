@@ -18,18 +18,114 @@
 	const LABEL_COLOR = '#4285f4';
 
 	const presents: Present[] = [
-		{ day: 1, x: 150, y: 900, width: 80, height: 60, fill: 'hsla(-150, 45%, 45%, 1)', ribbonFill: 'hsla(30, 45%, 70%, 0.75)' },
-		{ day: 2, x: 320, y: 880, width: 100, height: 80, fill: 'hsla(-100, 40%, 35%, 1)', ribbonFill: 'hsla(80, 40%, 60%, 0.75)' },
-		{ day: 3, x: 480, y: 910, width: 55, height: 50, fill: 'hsla(-80, 50%, 40%, 1)', ribbonFill: 'hsla(100, 50%, 65%, 0.75)' },
-		{ day: 4, x: 620, y: 890, width: 70, height: 70, fill: 'hsla(-200, 42%, 38%, 1)', ribbonFill: 'hsla(-20, 42%, 63%, 0.75)' },
-		{ day: 5, x: 780, y: 905, width: 90, height: 55, fill: 'hsla(-120, 48%, 42%, 1)', ribbonFill: 'hsla(60, 48%, 67%, 0.75)' },
-		{ day: 6, x: 950, y: 885, width: 65, height: 75, fill: 'hsla(-180, 44%, 36%, 1)', ribbonFill: 'hsla(0, 44%, 61%, 0.75)' },
-		{ day: 7, x: 1100, y: 895, width: 85, height: 65, fill: 'hsla(-140, 46%, 44%, 1)', ribbonFill: 'hsla(40, 46%, 69%, 0.75)' },
-		{ day: 8, x: 1280, y: 900, width: 60, height: 60, fill: 'hsla(-90, 50%, 40%, 1)', ribbonFill: 'hsla(90, 50%, 65%, 0.75)' },
-		{ day: 9, x: 1420, y: 880, width: 95, height: 80, fill: 'hsla(-160, 43%, 37%, 1)', ribbonFill: 'hsla(20, 43%, 62%, 0.75)' },
-		{ day: 10, x: 1580, y: 910, width: 50, height: 50, fill: 'hsla(-110, 47%, 41%, 1)', ribbonFill: 'hsla(70, 47%, 66%, 0.75)' },
-		{ day: 11, x: 1700, y: 890, width: 75, height: 70, fill: 'hsla(-130, 45%, 39%, 1)', ribbonFill: 'hsla(50, 45%, 64%, 0.75)' },
-		{ day: 12, x: 1820, y: 905, width: 70, height: 55, fill: 'hsla(-170, 41%, 43%, 1)', ribbonFill: 'hsla(10, 41%, 68%, 0.75)' }
+		{
+			day: 1,
+			x: 150,
+			y: 900,
+			width: 80,
+			height: 60,
+			fill: 'hsla(-150, 45%, 45%, 1)',
+			ribbonFill: 'hsla(30, 45%, 70%, 0.75)'
+		},
+		{
+			day: 2,
+			x: 320,
+			y: 880,
+			width: 100,
+			height: 80,
+			fill: 'hsla(-100, 40%, 35%, 1)',
+			ribbonFill: 'hsla(80, 40%, 60%, 0.75)'
+		},
+		{
+			day: 3,
+			x: 480,
+			y: 910,
+			width: 55,
+			height: 50,
+			fill: 'hsla(-80, 50%, 40%, 1)',
+			ribbonFill: 'hsla(100, 50%, 65%, 0.75)'
+		},
+		{
+			day: 4,
+			x: 620,
+			y: 890,
+			width: 70,
+			height: 70,
+			fill: 'hsla(-200, 42%, 38%, 1)',
+			ribbonFill: 'hsla(-20, 42%, 63%, 0.75)'
+		},
+		{
+			day: 5,
+			x: 780,
+			y: 905,
+			width: 90,
+			height: 55,
+			fill: 'hsla(-120, 48%, 42%, 1)',
+			ribbonFill: 'hsla(60, 48%, 67%, 0.75)'
+		},
+		{
+			day: 6,
+			x: 950,
+			y: 885,
+			width: 65,
+			height: 75,
+			fill: 'hsla(-180, 44%, 36%, 1)',
+			ribbonFill: 'hsla(0, 44%, 61%, 0.75)'
+		},
+		{
+			day: 7,
+			x: 1100,
+			y: 895,
+			width: 85,
+			height: 65,
+			fill: 'hsla(-140, 46%, 44%, 1)',
+			ribbonFill: 'hsla(40, 46%, 69%, 0.75)'
+		},
+		{
+			day: 8,
+			x: 1280,
+			y: 900,
+			width: 60,
+			height: 60,
+			fill: 'hsla(-90, 50%, 40%, 1)',
+			ribbonFill: 'hsla(90, 50%, 65%, 0.75)'
+		},
+		{
+			day: 9,
+			x: 1420,
+			y: 880,
+			width: 95,
+			height: 80,
+			fill: 'hsla(-160, 43%, 37%, 1)',
+			ribbonFill: 'hsla(20, 43%, 62%, 0.75)'
+		},
+		{
+			day: 10,
+			x: 1580,
+			y: 910,
+			width: 50,
+			height: 50,
+			fill: 'hsla(-110, 47%, 41%, 1)',
+			ribbonFill: 'hsla(70, 47%, 66%, 0.75)'
+		},
+		{
+			day: 11,
+			x: 1700,
+			y: 890,
+			width: 75,
+			height: 70,
+			fill: 'hsla(-130, 45%, 39%, 1)',
+			ribbonFill: 'hsla(50, 45%, 64%, 0.75)'
+		},
+		{
+			day: 12,
+			x: 1820,
+			y: 905,
+			width: 70,
+			height: 55,
+			fill: 'hsla(-170, 41%, 43%, 1)',
+			ribbonFill: 'hsla(10, 41%, 68%, 0.75)'
+		}
 	];
 
 	function handleLockedPresentClick(_event: Event, day: number) {
