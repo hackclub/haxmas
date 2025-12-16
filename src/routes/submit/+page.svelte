@@ -14,7 +14,7 @@
     { day: 1, url: 'https://forms.hackclub.com/haxmas-day-1', boxColor: 'hsla(-150, 45%, 45%, 1)', ribbonColor: 'hsla(30, 45%, 70%, 0.75)' },
     { day: 2, url: 'https://forms.hackclub.com/haxmas-day-2', boxColor: 'hsla(-100, 40%, 35%, 1)', ribbonColor: 'hsla(80, 40%, 60%, 0.75)' },
     { day: 3, url: 'https://forms.hackclub.com/haxmas-day-3', boxColor: 'hsla(-80, 50%, 40%, 1)', ribbonColor: 'hsla(100, 50%, 65%, 0.75)' },
-    { day: 4, url: '#', boxColor: 'hsla(-200, 42%, 38%, 1)', ribbonColor: 'hsla(-20, 42%, 63%, 0.75)' },
+    { day: 4, url: 'https://forms.hackclub.com/haxmas-day-4', boxColor: 'hsla(-200, 42%, 38%, 1)', ribbonColor: 'hsla(-20, 42%, 63%, 0.75)' },
     { day: 5, url: '#', boxColor: 'hsla(-120, 48%, 42%, 1)', ribbonColor: 'hsla(60, 48%, 67%, 0.75)' },
     { day: 6, url: '#', boxColor: 'hsla(-180, 44%, 36%, 1)', ribbonColor: 'hsla(0, 44%, 61%, 0.75)' },
     { day: 7, url: '#', boxColor: 'hsla(-140, 46%, 44%, 1)', ribbonColor: 'hsla(40, 46%, 69%, 0.75)' },
