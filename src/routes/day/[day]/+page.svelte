@@ -4,6 +4,8 @@
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
 	import { CURRENT_DAY } from '../../../consts';
+	import Header from '$lib/Header.svelte';
+	import Button from '$lib/Button.svelte';
 
 	type PageProps = {
 		data: {
@@ -16,6 +18,7 @@
 	let markdownContent = $state('');
 	let htmlContent = $state('');
 	let isClosed = $state(false);
+	let isLoading = $state(true);
 
 	function isDayClosed(day: number): boolean {
 		const openDateEST = new Date(`2025-12-${day + 12}T00:00:00-05:00`);
@@ -36,21 +39,30 @@
 	onMount(async () => {
 		const day = parseInt(data.day, 10);
 		if (day < 1 || day > 12 || isNaN(day) || !Number.isInteger(day)) {
-			htmlContent = '<h1>Invalid day.</h1><p>Please select a day between 1 and 12.</p>';
+			htmlContent = '<h1>Invalid day</h1><p>Please select a day between 1 and 12.</p>';
+			isLoading = false;
 			return;
 		}
-		if (day > CURRENT_DAY && day != 4) {
-			htmlContent = `<h1>Day ${day} is not available yet.</h1><p>Please come back on December ${day + 12} to see the content!</p>`;
+		if (day > CURRENT_DAY && day !== 4) {
+			htmlContent = `<h1>Day ${day} is not available yet</h1><p>Come back on December ${day + 12} to see the content!</p>`;
+			isLoading = false;
 			return;
 		}
-		const res = await fetch(
-			`https://raw.githubusercontent.com/hackclub/hackmas-day-${day}/refs/heads/main/README.md`
-		);
-		if (res.ok) {
-			markdownContent = await res.text();
-			htmlContent = await marked(markdownContent);
-			isClosed = isDayClosed(day);
+		try {
+			const res = await fetch(
+				`https://raw.githubusercontent.com/hackclub/hackmas-day-${day}/refs/heads/main/README.md`
+			);
+			if (res.ok) {
+				markdownContent = await res.text();
+				htmlContent = await marked(markdownContent);
+				isClosed = isDayClosed(day);
+			} else {
+				htmlContent = '<h1>Content not found</h1><p>The workshop content could not be loaded.</p>';
+			}
+		} catch {
+			htmlContent = '<h1>Error loading content</h1><p>Please try again later.</p>';
 		}
+		isLoading = false;
 	});
 </script>
 
@@ -62,38 +74,40 @@
 	/>
 </svelte:head>
 
-<div class="day-wrapper">
-	<div class="container">
-		<a href="/" class="back-link">← Back to Home</a>
+<Header title="Day {data.day}" showBack={true} />
 
-		{#if isClosed}
-			<div class="closed-banner">
-				Closed - This day is no longer accepting submissions
+<div class="page-wrapper">
+	<div class="container">
+		{#if isLoading}
+			<div class="loading">
+				<div class="spinner"></div>
+				<p>Loading workshop...</p>
+			</div>
+		{:else}
+			{#if isClosed}
+				<div class="status-banner closed">
+					⚠️ This day is closed and no longer accepting submissions
+				</div>
+			{/if}
+
+			<article class="markdown-content">
+				{@html htmlContent}
+			</article>
+
+			<div class="action-bar">
+				<Button href="https://forms.hackclub.com/haxmas-day-{data.day}" variant="primary" size="lg">
+					Submit Your Project
+				</Button>
 			</div>
 		{/if}
-
-		<div class="markdown-content">
-			{@html htmlContent}
-		</div>
 	</div>
 </div>
 
 <style>
-	.closed-banner {
-		background-color: #ec3750;
-		color: #fff;
-		text-align: center;
-		padding: 1.5rem 2rem;
-		font-size: 1.5rem;
-		font-weight: bold;
-		border-radius: 12px;
-		margin-bottom: 1.5rem;
-	}
-
-	.day-wrapper {
+	.page-wrapper {
 		min-height: 100vh;
 		background-color: #4285f4;
-		padding: 2rem;
+		padding: 5rem 1.5rem 3rem;
 	}
 
 	.container {
@@ -101,61 +115,90 @@
 		margin: 0 auto;
 	}
 
-	.back-link {
-		display: inline-block;
+	.loading {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 4rem 2rem;
 		color: #fff;
-		text-decoration: none;
-		font-size: 1rem;
-		margin-bottom: 2rem;
-		transition: opacity 0.2s;
+		gap: 1rem;
 	}
 
-	.back-link:hover {
-		opacity: 0.8;
-		text-decoration: underline;
+	.spinner {
+		width: 40px;
+		height: 40px;
+		border: 3px solid rgba(255, 255, 255, 0.3);
+		border-top-color: #fff;
+		border-radius: 50%;
+		animation: spin 0.8s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.status-banner {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 1rem 1.25rem;
+		border-radius: 8px;
+		margin-bottom: 1.5rem;
+		font-size: 0.95rem;
+		font-weight: 500;
+	}
+
+	.status-banner.closed {
+		background-color: rgba(236, 55, 80, 0.9);
+		color: #fff;
 	}
 
 	.markdown-content {
-		background-color: rgba(26, 71, 42, 0.9);
-		border: 2px solid #4a7c59;
-		border-radius: 16px;
-		padding: 2rem 3rem;
+		background-color: rgba(26, 71, 42, 0.95);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 12px;
+		padding: 2rem 2.5rem;
 	}
 
 	.markdown-content :global(h1) {
 		color: #ffffff;
-		font-size: 2.5rem;
+		font-size: 2rem;
 		margin: 0 0 1.5rem 0;
-		border-bottom: 2px solid #4a7c59;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 		padding-bottom: 0.75rem;
 	}
 
 	.markdown-content :global(h2) {
 		color: #ffffff;
-		font-size: 1.75rem;
+		font-size: 1.5rem;
 		margin: 2rem 0 1rem 0;
 	}
 
 	.markdown-content :global(h3) {
 		color: #ffffff;
-		font-size: 1.35rem;
+		font-size: 1.25rem;
 		margin: 1.5rem 0 0.75rem 0;
 	}
 
 	.markdown-content :global(p) {
 		color: #d4e7d4;
 		font-size: 1rem;
-		line-height: 1.7;
+		line-height: 1.75;
 		margin: 0 0 1rem 0;
 	}
 
 	.markdown-content :global(a) {
-		color: #ec3750;
+		color: #5bc0de;
 		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s;
 	}
 
 	.markdown-content :global(a:hover) {
-		text-decoration: underline;
+		border-bottom-color: currentColor;
 	}
 
 	.markdown-content :global(ul),
@@ -168,22 +211,22 @@
 	.markdown-content :global(li) {
 		color: #d4e7d4;
 		font-size: 1rem;
-		line-height: 1.7;
+		line-height: 1.75;
 		margin-bottom: 0.5rem;
 	}
 
 	.markdown-content :global(code) {
 		background-color: rgba(0, 0, 0, 0.3);
 		color: #33d6a6;
-		padding: 0.2rem 0.4rem;
+		padding: 0.15rem 0.4rem;
 		border-radius: 4px;
-		font-family: monospace;
-		font-size: 0.9rem;
+		font-family: 'SF Mono', Monaco, Consolas, monospace;
+		font-size: 0.9em;
 	}
 
 	.markdown-content :global(pre) {
 		background-color: rgba(0, 0, 0, 0.4);
-		border: 1px solid #4a7c59;
+		border: 1px solid rgba(255, 255, 255, 0.1);
 		border-radius: 8px;
 		padding: 1rem;
 		overflow-x: auto;
@@ -193,13 +236,14 @@
 	.markdown-content :global(pre code) {
 		background-color: transparent;
 		padding: 0;
+		font-size: 0.875rem;
 	}
 
 	.markdown-content :global(blockquote) {
-		border-left: 4px solid #ec3750;
+		border-left: 3px solid #5bc0de;
 		margin: 0 0 1rem 0;
 		padding-left: 1rem;
-		color: #b8d4b8;
+		color: rgba(212, 231, 212, 0.85);
 		font-style: italic;
 	}
 
@@ -212,7 +256,7 @@
 
 	.markdown-content :global(hr) {
 		border: none;
-		border-top: 1px solid #4a7c59;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
 		margin: 2rem 0;
 	}
 
@@ -224,37 +268,43 @@
 
 	.markdown-content :global(th),
 	.markdown-content :global(td) {
-		border: 1px solid #4a7c59;
+		border: 1px solid rgba(255, 255, 255, 0.15);
 		padding: 0.75rem;
 		text-align: left;
 		color: #d4e7d4;
 	}
 
 	.markdown-content :global(th) {
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, 0.2);
 		color: #ffffff;
 	}
 
+	.action-bar {
+		display: flex;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+
 	@media (max-width: 768px) {
-		.day-wrapper {
-			padding: 1rem;
+		.page-wrapper {
+			padding: 4.5rem 1rem 2rem;
 		}
 
 		.markdown-content {
 			padding: 1.5rem;
-			border-radius: 12px;
+			border-radius: 10px;
 		}
 
 		.markdown-content :global(h1) {
-			font-size: 1.75rem;
+			font-size: 1.5rem;
 		}
 
 		.markdown-content :global(h2) {
-			font-size: 1.35rem;
+			font-size: 1.25rem;
 		}
 
 		.markdown-content :global(h3) {
-			font-size: 1.15rem;
+			font-size: 1.1rem;
 		}
 
 		.markdown-content :global(p),
@@ -262,38 +312,32 @@
 			font-size: 0.95rem;
 		}
 
-		.markdown-content :global(pre) {
-			padding: 0.75rem;
-			font-size: 0.85rem;
+		.status-banner {
+			font-size: 0.9rem;
 		}
 	}
 
 	@media (max-width: 480px) {
-		.day-wrapper {
-			padding: 0.75rem;
+		.page-wrapper {
+			padding: 4rem 0.75rem 1.5rem;
 		}
 
 		.markdown-content {
-			padding: 1rem;
+			padding: 1.25rem;
 		}
 
 		.markdown-content :global(h1) {
-			font-size: 1.5rem;
-			padding-bottom: 0.5rem;
-		}
-
-		.markdown-content :global(h2) {
-			font-size: 1.2rem;
+			font-size: 1.35rem;
 		}
 
 		.markdown-content :global(pre) {
-			padding: 0.5rem;
+			padding: 0.75rem;
 			font-size: 0.8rem;
-			overflow-x: auto;
 		}
 
-		.back-link {
-			font-size: 0.9rem;
+		.status-banner {
+			font-size: 0.85rem;
+			padding: 0.75rem 1rem;
 		}
 	}
 </style>

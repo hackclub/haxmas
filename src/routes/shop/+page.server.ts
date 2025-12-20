@@ -40,15 +40,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw redirect(302, '/landing');
 	}
 
-	const response = await fetch(
-		`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop`,
-		{
-			headers: {
-				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-				'Content-Type': 'application/json'
-			}
+	const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop`, {
+		headers: {
+			Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+			'Content-Type': 'application/json'
 		}
-	);
+	});
 
 	if (!response.ok) {
 		console.error('Airtable fetch failed:', response.statusText);

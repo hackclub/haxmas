@@ -1,7 +1,10 @@
 <script lang="ts">
 	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
+	import Header from '$lib/Header.svelte';
 	import Button from '$lib/Button.svelte';
 	import Present from '$lib/Present.svelte';
+	import ProgressTracker from '$lib/ProgressTracker.svelte';
+	import { CURRENT_DAY } from '../consts';
 
 	interface Day {
 		day: number;
@@ -11,259 +14,153 @@
 	}
 
 	const days: Day[] = [
-		{
-			day: 1,
-			url: '/day/1',
-			boxColor: 'hsla(-150, 45%, 45%, 1)',
-			ribbonColor: 'hsla(30, 45%, 70%, 0.75)'
-		},
-		{
-			day: 2,
-			url: '/day/2',
-			boxColor: 'hsla(-100, 40%, 35%, 1)',
-			ribbonColor: 'hsla(80, 40%, 60%, 0.75)'
-		},
-		{
-			day: 3,
-			url: '/day/3',
-			boxColor: 'hsla(-80, 50%, 40%, 1)',
-			ribbonColor: 'hsla(100, 50%, 65%, 0.75)'
-		},
-		{
-			day: 4,
-			url: '/day/4',
-			boxColor: 'hsla(-200, 42%, 38%, 1)',
-			ribbonColor: 'hsla(-20, 42%, 63%, 0.75)'
-		},
-		{
-			day: 5,
-			url: '/day/5',
-			boxColor: 'hsla(-120, 48%, 42%, 1)',
-			ribbonColor: 'hsla(60, 48%, 67%, 0.75)'
-		},
-		{
-			day: 6,
-			url: '/day/6',
-			boxColor: 'hsla(-180, 44%, 36%, 1)',
-			ribbonColor: 'hsla(0, 44%, 61%, 0.75)'
-		},
-		{
-			day: 7,
-			url: '/day/7',
-			boxColor: 'hsla(-140, 46%, 44%, 1)',
-			ribbonColor: 'hsla(40, 46%, 69%, 0.75)'
-		},
-		{
-			day: 8,
-			url: '/day/8',
-			boxColor: 'hsla(-90, 50%, 40%, 1)',
-			ribbonColor: 'hsla(90, 50%, 65%, 0.75)'
-		},
-		{
-			day: 9,
-			url: '/day/9',
-			boxColor: 'hsla(-160, 43%, 37%, 1)',
-			ribbonColor: 'hsla(20, 43%, 62%, 0.75)'
-		},
-		{
-			day: 10,
-			url: '/day/10',
-			boxColor: 'hsla(-110, 47%, 41%, 1)',
-			ribbonColor: 'hsla(70, 47%, 66%, 0.75)'
-		},
-		{
-			day: 11,
-			url: '/day/11',
-			boxColor: 'hsla(-130, 45%, 39%, 1)',
-			ribbonColor: 'hsla(50, 45%, 64%, 0.75)'
-		},
-		{
-			day: 12,
-			url: '/day/12',
-			boxColor: 'hsla(-170, 41%, 43%, 1)',
-			ribbonColor: 'hsla(10, 41%, 68%, 0.75)'
-		}
+		{ day: 1, url: '/day/1', boxColor: '#c41e3a', ribbonColor: '#ffd700' },
+		{ day: 2, url: '/day/2', boxColor: '#2e8b57', ribbonColor: '#f0e68c' },
+		{ day: 3, url: '/day/3', boxColor: '#8b0000', ribbonColor: '#98fb98' },
+		{ day: 4, url: '/day/4', boxColor: '#1a5f2a', ribbonColor: '#ffa07a' },
+		{ day: 5, url: '/day/5', boxColor: '#b22222', ribbonColor: '#87ceeb' },
+		{ day: 6, url: '/day/6', boxColor: '#228b22', ribbonColor: '#ffe4b5' },
+		{ day: 7, url: '/day/7', boxColor: '#a52a2a', ribbonColor: '#dda0dd' },
+		{ day: 8, url: '/day/8', boxColor: '#006400', ribbonColor: '#ffb6c1' },
+		{ day: 9, url: '/day/9', boxColor: '#dc143c', ribbonColor: '#e0ffff' },
+		{ day: 10, url: '/day/10', boxColor: '#2f4f4f', ribbonColor: '#f5deb3' },
+		{ day: 11, url: '/day/11', boxColor: '#8b4513', ribbonColor: '#add8e6' },
+		{ day: 12, url: '/day/12', boxColor: '#800020', ribbonColor: '#fafad2' }
 	];
 
-	function goToDay(url: string) {
-		if (url === '#') {
-			alert('Coming soon! Check back later');
+	function goToDay(url: string, day: number) {
+		if (day > CURRENT_DAY && day !== 4) {
+			alert(`Day ${day} opens on December ${day + 12}!`);
 		} else {
 			window.location.href = url;
 		}
 	}
-
-	function goBack() {
-		window.location.href = '/';
-	}
-
-	function comingSoon() {
-		alert('Coming very soon!');
-	}
-
-	function goToDays() {
-		window.location.href = '/submit';
-	}
-
-	function faq() {
-		window.location.href = '/faq';
-	}
-	function credits() {
-		window.location.href = '/credits';
-	}
-	function shop() {
-		window.location.href = '/shop';
-	}
-	function profile() {
-		window.location.href = '/profile';
-	}
 </script>
 
+<svelte:head>
+	<title>Haxmas - 12 Days of Workshops</title>
+</svelte:head>
+
 <ChristmasAnimationNoPresents />
+<Header title="Haxmas" />
 
-<div class="container">
-	<h1>Haxmas</h1>
+<main class="main">
+	<section class="hero">
+		<p class="tagline">12 days of workshops. Epic prizes. December 13-25.</p>
+	</section>
 
-	<div class="days-grid">
-		{#each days as day}
-			<Present
-				day={day.day}
-				boxColor={day.boxColor}
-				ribbonColor={day.ribbonColor}
-				on:click={() => goToDay(day.url)}
-			/>
-		{/each}
-	</div>
+	<section class="content">
+		<ProgressTracker completedDays={0} totalDays={12} />
 
-	<div class="button-container">
-		<Button on:click={goToDays}>Submit</Button>
-		<Button on:click={shop}>Shop</Button>
-		<Button on:click={faq}>FAQ</Button>
-		<Button on:click={credits}>Credits</Button>
-		<Button on:click={profile}>Profile</Button>
-		<Button href="/auth/logout">Log Out</Button>
-	</div>
-</div>
+		<div class="days-grid">
+			{#each days as day}
+				<Present
+					day={day.day}
+					boxColor={day.boxColor}
+					ribbonColor={day.ribbonColor}
+					on:click={() => goToDay(day.url, day.day)}
+				/>
+			{/each}
+		</div>
+
+		<nav class="quick-links">
+			<Button href="/submit" variant="primary">Submit Project</Button>
+			<Button href="/shop" variant="primary">Shop</Button>
+			<Button href="/faq" variant="primary">FAQ</Button>
+			<Button href="/credits" variant="primary">Credits</Button>
+		</nav>
+	</section>
+</main>
 
 <style>
-	.container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+	.main {
+		position: relative;
 		z-index: 100;
+		min-height: 100vh;
+		padding: 5rem 1.5rem 3rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 2rem;
-		padding-bottom: 100px;
-		overflow-y: auto;
-		overflow-x: hidden;
-		-webkit-overflow-scrolling: touch;
 	}
 
-	h1 {
-		color: #fff;
-		font-size: 3rem;
-		margin-bottom: 3rem;
+	.hero {
 		text-align: center;
-		padding: 0 1rem;
-		flex-shrink: 0;
+		margin-bottom: 2rem;
+	}
+
+	.tagline {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1.1rem;
+		margin: 0;
+		font-weight: 400;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+		width: 100%;
+		max-width: 700px;
 	}
 
 	.days-grid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 2rem;
-		max-width: 600px;
+		gap: 1.5rem;
 		width: 100%;
-		flex-shrink: 0;
-		padding-bottom: 1rem;
+		justify-items: center;
 	}
 
-	.button-container {
-		position: fixed;
-		bottom: 5rem;
-		left: 50%;
-		transform: translateX(-50%);
+	.quick-links {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 0.5rem;
-		z-index: 200;
-		padding: 0 0.5rem;
-		max-width: 100%;
-		width: calc(100% - 1rem);
+		gap: 0.75rem;
+		margin-top: 1rem;
 	}
 
 	@media (max-width: 768px) {
-		.container {
-			padding: 1rem;
-			padding-top: 1.5rem;
-			padding-bottom: 80px;
+		.main {
+			padding: 4.5rem 1rem 2rem;
 		}
 
-		h1 {
-			font-size: 2rem;
-			margin-bottom: 1.5rem;
+		.tagline {
+			font-size: 1rem;
 		}
 
 		.days-grid {
 			grid-template-columns: repeat(3, 1fr);
 			gap: 1rem;
-			max-width: 350px;
-			justify-items: center;
 		}
 
-		.button-container {
-			bottom: 1.5rem;
-			left: 50%;
-			transform: translateX(-50%);
-			width: calc(100% - 1rem);
-			flex-wrap: nowrap;
-			padding: 0.5rem;
-			padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+		.content {
+			gap: 1.5rem;
 		}
 	}
 
 	@media (max-width: 480px) {
-		.container {
-			padding: 0.75rem;
-			padding-top: 1rem;
-			padding-bottom: 70px;
+		.main {
+			padding: 4rem 0.75rem 1.5rem;
 		}
 
-		h1 {
-			font-size: 1.5rem;
-			margin-bottom: 1rem;
+		.tagline {
+			font-size: 0.9rem;
 		}
 
 		.days-grid {
 			grid-template-columns: repeat(3, 1fr);
 			gap: 0.5rem;
-			max-width: 280px;
 		}
 
-		.button-container {
-			gap: 0.35rem;
+		.quick-links {
+			gap: 0.5rem;
 		}
 	}
 
 	@media (max-width: 360px) {
 		.days-grid {
 			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-height: 600px) {
-		.container {
-			padding-top: 0.5rem;
-		}
-
-		h1 {
-			font-size: 1.5rem;
-			margin-bottom: 0.75rem;
 		}
 	}
 </style>

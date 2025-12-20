@@ -1,7 +1,5 @@
 <script lang="ts">
-	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
-	import Button from '$lib/Button.svelte';
-	import Present from '$lib/Present.svelte';
+	import Header from '$lib/Header.svelte';
 
 	interface Person {
 		username: string;
@@ -34,7 +32,7 @@
 			url: 'https://github.com/electricxangel',
 			desc: 'Art/Design',
 			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U081SNW7JUA-a855231b9e3d-512'
-		},
+		}
 	];
 
 	const ambassadors: Person[] = [
@@ -109,194 +107,210 @@
 			url: 'https://github.com/dragonsenseiguy',
 			desc: 'Day 12',
 			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U09H4M0523Z-0962acd8d44d-512'
-		},
+		}
 	];
 
 	function goToPerson(url: string) {
-		if (url === '#') {
-		} else {
-			window.location.href = url;
+		if (url !== '#') {
+			window.open(url, '_blank');
 		}
-	}
-
-	function goBack() {
-		window.location.href = '/';
-	}
-
-	function comingSoon() {
-		alert('Coming very soon!');
-	}
-
-	function goToDays() {
-		window.location.href = '/submit';
-	}
-
-	function faq() {
-		window.location.href = '/faq';
 	}
 </script>
 
+<svelte:head>
+	<title>Credits | Haxmas</title>
+</svelte:head>
 
-<div class="container">
-	<h1>Organizers</h1>
+<Header title="Credits" showBack={true} />
 
-	<div class="orgs-grid four">
-		{#each orgs as org}
-			<button class="org-card" on:click={() => goToPerson(org.url)}>
-				<img src={org.pfp} alt={org.username} class="pfp" />
-				<div class="org-info">
-					<h3>{org.username}</h3>
-					<p class="desc">{org.desc}</p>
-				</div>
-			</button>
-		{/each}
+<div class="page-wrapper">
+	<div class="container">
+		<section class="section">
+			<h2>Organizers</h2>
+			<div class="people-grid organizers">
+				{#each orgs as person}
+					<button class="person-card" on:click={() => goToPerson(person.url)}>
+						<img src={person.pfp} alt={person.username} class="avatar" />
+						<div class="person-info">
+							<h3>{person.username}</h3>
+							<p>{person.desc}</p>
+						</div>
+					</button>
+				{/each}
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Workshop Ambassadors</h2>
+			<div class="people-grid ambassadors">
+				{#each ambassadors as person}
+					<button class="person-card compact" on:click={() => goToPerson(person.url)}>
+						<img src={person.pfp} alt={person.username} class="avatar" />
+						<div class="person-info">
+							<h3>{person.username}</h3>
+							<p>{person.desc}</p>
+						</div>
+					</button>
+				{/each}
+			</div>
+		</section>
+
+		<footer class="footer">
+			<p>Haxmas is proudly 100% teen-organized.</p>
+			<a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">
+				Learn more about Hack Club →
+			</a>
+		</footer>
 	</div>
-
-    	<h1>Ambassadors</h1>
-
-	<div class="orgs-grid">
-		{#each ambassadors as org}
-			<button class="org-card" on:click={() => goToPerson(org.url)}>
-				<img src={org.pfp} alt={org.username} class="pfp" />
-				<div class="org-info">
-					<h3>{org.username}</h3>
-					<p class="desc">{org.desc}</p>
-				</div>
-			</button>
-		{/each}
-	</div>
-
-	<footer>
-		Haxmas is proudly 100% teen-organized.
-	</footer>
-
 </div>
 
 <style>
+	.page-wrapper {
+		min-height: 100vh;
+		background-color: #4285f4;
+		padding: 5rem 1.5rem 3rem;
+	}
+
 	.container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 100;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 2rem;
-		padding-bottom: 100px;
-		overflow: scroll;
-        background-color: #4285f4;
+		max-width: 800px;
+		margin: 0 auto;
 	}
 
-	footer {
-		margin-top:3rem;
+	.section {
+		margin-bottom: 2.5rem;
 	}
 
-	h1 {
+	h2 {
 		color: #fff;
-		font-size: 2.5rem;
-		margin-bottom: 2rem;
+		font-size: 1.5rem;
+		margin: 0 0 1.25rem 0;
+		font-weight: 500;
 		text-align: center;
-		padding: 0 1rem;
 	}
 
-	.orgs-grid {
+	.people-grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
-		max-width: 750px;
-		width: 100%;
-	}
-
-	.four {
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1.5rem;
-	}
-
-	@media (max-width: 768px) {
-		.orgs-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-width: 480px) {
-		.orgs-grid {
-			grid-template-columns: 1fr;
-			gap: 1rem;
-		}
-
-		h1 {
-			font-size: 1.75rem;
-			margin-bottom: 1.5rem;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.container {
-			padding: 1rem;
-			padding-top: 2rem;
-			padding-bottom: 120px;
-		}
-
-		h1 {
-			font-size: 2rem;
-			margin-bottom: 2rem;
-		}
-
-		.orgs-grid {
-			gap: 1.25rem;
-			max-width: 100%;
-		}
-	}
-
-	.org-card {
-		background: rgba(255, 255, 255, 0.1);
-		border: 3px solid #fff;
-		border-radius: 5px;
-		padding: 1rem 2rem;
-		cursor: pointer;
-		transition: transform 0.2s, background 0.2s;
-		text-align: left;
-		font-family: inherit;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
 		gap: 0.75rem;
 	}
 
-	.pfp {
-		width: 48px;
-		height: 48px;
+	.people-grid.organizers {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.people-grid.ambassadors {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.person-card {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.75rem 1rem;
+		background: rgba(0, 0, 0, 0.15);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		cursor: pointer;
+		text-align: left;
+		font-family: inherit;
+		transition:
+			transform 0.2s,
+			border-color 0.2s;
+	}
+
+	.person-card:hover {
+		transform: translateY(-2px);
+		border-color: rgba(255, 255, 255, 0.25);
+	}
+
+	.avatar {
+		width: 44px;
+		height: 44px;
 		border-radius: 50%;
 		object-fit: cover;
 		flex-shrink: 0;
 	}
 
-	.org-info {
-		display: flex;
-		flex-direction: column;
+	.person-card.compact .avatar {
+		width: 36px;
+		height: 36px;
+	}
+
+	.person-info {
 		min-width: 0;
 	}
 
-	.org-card:hover {
-		transform: translateY(-4px);
-		background: rgba(255, 255, 255, 0.15);
-	}
-
-	.org-card h3 {
+	.person-card h3 {
 		color: #fff;
 		margin: 0;
-		font-size: 1.1rem;
-        margin-bottom: 2px;
+		font-size: 0.95rem;
+		font-weight: 500;
 	}
 
-	.org-card .desc {
-		color: rgba(255, 255, 255);
-		margin: 0;
+	.person-card.compact h3 {
 		font-size: 0.9rem;
 	}
 
+	.person-card p {
+		color: rgba(255, 255, 255, 0.7);
+		margin: 0.15rem 0 0 0;
+		font-size: 0.8rem;
+	}
 
+	.person-card.compact p {
+		font-size: 0.75rem;
+	}
 
+	.footer {
+		text-align: center;
+		padding-top: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.footer p {
+		color: rgba(255, 255, 255, 0.8);
+		margin: 0 0 0.75rem 0;
+		font-size: 1rem;
+	}
+
+	.footer a {
+		color: #5bc0de;
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+	.footer a:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 768px) {
+		.page-wrapper {
+			padding: 4.5rem 1rem 2rem;
+		}
+
+		.people-grid.organizers {
+			grid-template-columns: 1fr;
+		}
+
+		.people-grid.ambassadors {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		h2 {
+			font-size: 1.35rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.page-wrapper {
+			padding: 4rem 0.75rem 1.5rem;
+		}
+
+		.people-grid.ambassadors {
+			grid-template-columns: 1fr;
+		}
+
+		.person-card {
+			padding: 0.6rem 0.75rem;
+		}
+	}
 </style>

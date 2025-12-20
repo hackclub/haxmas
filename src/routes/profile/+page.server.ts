@@ -26,8 +26,8 @@ interface AirtableRecord {
 	fields: {
 		'Code URL'?: string;
 		'Playable URL'?: string;
-		'Email'?: string;
-		'Screenshot'?: AirtableAttachment[];
+		Email?: string;
+		Screenshot?: AirtableAttachment[];
 		'Automation - Status'?: string;
 	};
 }

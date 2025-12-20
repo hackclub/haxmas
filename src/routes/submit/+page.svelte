@@ -1,167 +1,165 @@
 <script lang="ts">
-  import ChristmasAnimationNoPresents from "$lib/ChristmasAnimationNoPresents.svelte";
-  import Button from "$lib/Button.svelte";
-  import Present from "$lib/Present.svelte";
+	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
+	import Header from '$lib/Header.svelte';
+	import Present from '$lib/Present.svelte';
+	import { CURRENT_DAY } from '../../consts';
 
-  interface Day {
-    day: number;
-    url: string;
-    boxColor: string;
-    ribbonColor: string;
-  }
+	interface Day {
+		day: number;
+		url: string;
+		boxColor: string;
+		ribbonColor: string;
+	}
 
-  const days: Day[] = [
-    { day: 1, url: 'https://forms.hackclub.com/haxmas-day-1', boxColor: 'hsla(-150, 45%, 45%, 1)', ribbonColor: 'hsla(30, 45%, 70%, 0.75)' },
-    { day: 2, url: 'https://forms.hackclub.com/haxmas-day-2', boxColor: 'hsla(-100, 40%, 35%, 1)', ribbonColor: 'hsla(80, 40%, 60%, 0.75)' },
-    { day: 3, url: 'https://forms.hackclub.com/haxmas-day-3', boxColor: 'hsla(-80, 50%, 40%, 1)', ribbonColor: 'hsla(100, 50%, 65%, 0.75)' },
-    { day: 4, url: 'https://forms.hackclub.com/haxmas-day-4', boxColor: 'hsla(-200, 42%, 38%, 1)', ribbonColor: 'hsla(-20, 42%, 63%, 0.75)' },
-    { day: 5, url: 'https://forms.hackclub.com/haxmas-day-5', boxColor: 'hsla(-120, 48%, 42%, 1)', ribbonColor: 'hsla(60, 48%, 67%, 0.75)' },
-    { day: 6, url: 'https://forms.hackclub.com/haxmas-day-6', boxColor: 'hsla(-180, 44%, 36%, 1)', ribbonColor: 'hsla(0, 44%, 61%, 0.75)' },
-    { day: 7, url: 'https://forms.hackclub.com/haxmas-day-7', boxColor: 'hsla(-140, 46%, 44%, 1)', ribbonColor: 'hsla(40, 46%, 69%, 0.75)' },
-    { day: 8, url: '#', boxColor: 'hsla(-90, 50%, 40%, 1)', ribbonColor: 'hsla(90, 50%, 65%, 0.75)' },
-    { day: 9, url: '#', boxColor: 'hsla(-160, 43%, 37%, 1)', ribbonColor: 'hsla(20, 43%, 62%, 0.75)' },
-    { day: 10, url: '#', boxColor: 'hsla(-110, 47%, 41%, 1)', ribbonColor: 'hsla(70, 47%, 66%, 0.75)' },
-    { day: 11, url: '#', boxColor: 'hsla(-130, 45%, 39%, 1)', ribbonColor: 'hsla(50, 45%, 64%, 0.75)' },
-    { day: 12, url: '#', boxColor: 'hsla(-170, 41%, 43%, 1)', ribbonColor: 'hsla(10, 41%, 68%, 0.75)' },
-  ];
+	const days: Day[] = [
+		{
+			day: 1,
+			url: 'https://forms.hackclub.com/haxmas-day-1',
+			boxColor: '#c41e3a',
+			ribbonColor: '#ffd700'
+		},
+		{
+			day: 2,
+			url: 'https://forms.hackclub.com/haxmas-day-2',
+			boxColor: '#2e8b57',
+			ribbonColor: '#f0e68c'
+		},
+		{
+			day: 3,
+			url: 'https://forms.hackclub.com/haxmas-day-3',
+			boxColor: '#8b0000',
+			ribbonColor: '#98fb98'
+		},
+		{
+			day: 4,
+			url: 'https://forms.hackclub.com/haxmas-day-4',
+			boxColor: '#1a5f2a',
+			ribbonColor: '#ffa07a'
+		},
+		{
+			day: 5,
+			url: 'https://forms.hackclub.com/haxmas-day-5',
+			boxColor: '#b22222',
+			ribbonColor: '#87ceeb'
+		},
+		{
+			day: 6,
+			url: 'https://forms.hackclub.com/haxmas-day-6',
+			boxColor: '#228b22',
+			ribbonColor: '#ffe4b5'
+		},
+		{
+			day: 7,
+			url: 'https://forms.hackclub.com/haxmas-day-7',
+			boxColor: '#a52a2a',
+			ribbonColor: '#dda0dd'
+		},
+		{ day: 8, url: '#', boxColor: '#006400', ribbonColor: '#ffb6c1' },
+		{ day: 9, url: '#', boxColor: '#dc143c', ribbonColor: '#e0ffff' },
+		{ day: 10, url: '#', boxColor: '#2f4f4f', ribbonColor: '#f5deb3' },
+		{ day: 11, url: '#', boxColor: '#8b4513', ribbonColor: '#add8e6' },
+		{ day: 12, url: '#', boxColor: '#800020', ribbonColor: '#fafad2' }
+	];
 
-  function goToDay(url: string) {
-    if (url === '#') {
-      alert('Coming soon! Check back later');
-    } else {
-      window.location.href = url;
-    }
-  }
-
-  function goBack() {
-    window.location.href = '/';
-  }
+	function goToDay(url: string, day: number) {
+		if (day > CURRENT_DAY && day !== 4) {
+			alert(`Day ${day} opens on December ${day + 12}!`);
+		} else if (url === '#') {
+			alert('Coming soon! Check back later.');
+		} else {
+			window.location.href = url;
+		}
+	}
 </script>
 
+<svelte:head>
+	<title>Submit | Haxmas</title>
+</svelte:head>
+
 <ChristmasAnimationNoPresents />
+<Header title="Submit Project" showBack={true} />
 
-<div class="container">
-  <h1>Choose a day to submit</h1>
-  
-  <div class="days-grid">
-    {#each days as day}
-      <Present 
-        day={day.day}
-        boxColor={day.boxColor}
-        ribbonColor={day.ribbonColor}
-        on:click={() => goToDay(day.url)}
-      />
-    {/each}
-  </div>
+<main class="main">
+	<section class="hero">
+		<p class="subtitle">Choose a day to submit your project</p>
+	</section>
 
-  <div class="back-button">
-    <Button on:click={goBack}>Back</Button>
-  </div>
-</div>
+	<div class="days-grid">
+		{#each days as day}
+			<Present
+				day={day.day}
+				boxColor={day.boxColor}
+				ribbonColor={day.ribbonColor}
+				on:click={() => goToDay(day.url, day.day)}
+			/>
+		{/each}
+	</div>
+</main>
 
 <style>
-  .container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    padding-bottom: 100px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
+	.main {
+		position: relative;
+		z-index: 100;
+		min-height: 100vh;
+		padding: 5rem 1.5rem 3rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
-  h1 {
-    color: #fff;
-    font-size: 3rem;
-    margin-bottom: 3rem;
-    text-align: center;
-    padding: 0 1rem;
-    flex-shrink: 0;
-  }
+	.hero {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
 
-  .days-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 600px;
-    width: 100%;
-    flex-shrink: 0;
-    padding-bottom: 1rem;
-  }
+	.subtitle {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1.1rem;
+		margin: 0;
+	}
 
-  .back-button {
-    position: fixed;
-    bottom: 5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 200;
-  }
+	.days-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1.5rem;
+		max-width: 600px;
+		width: 100%;
+		justify-items: center;
+	}
 
-  @media (max-width: 768px) {
-    .container {
-      padding: 1rem;
-      padding-top: 1.5rem;
-      padding-bottom: 80px;
-    }
+	@media (max-width: 768px) {
+		.main {
+			padding: 4.5rem 1rem 2rem;
+		}
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
+		.subtitle {
+			font-size: 1rem;
+		}
 
-    .days-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      max-width: 350px;
-      justify-items: center;
-    }
+		.days-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+	}
 
-    .back-button {
-      bottom: 1.5rem;
-      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
-    }
-  }
+	@media (max-width: 480px) {
+		.main {
+			padding: 4rem 0.75rem 1.5rem;
+		}
 
-  @media (max-width: 480px) {
-    .container {
-      padding: 0.75rem;
-      padding-top: 1rem;
-      padding-bottom: 70px;
-    }
+		.subtitle {
+			font-size: 0.9rem;
+		}
 
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
+		.days-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0.5rem;
+		}
+	}
 
-    .days-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      max-width: 280px;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .days-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-height: 600px) {
-    .container {
-      padding-top: 0.5rem;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-  }
+	@media (max-width: 360px) {
+		.days-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
 </style>
