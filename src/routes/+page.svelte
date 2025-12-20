@@ -1,10 +1,13 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
 	import Header from '$lib/Header.svelte';
 	import Button from '$lib/Button.svelte';
 	import Present from '$lib/Present.svelte';
 	import ProgressTracker from '$lib/ProgressTracker.svelte';
 	import { CURRENT_DAY } from '../consts';
+
+	export let data: PageData;
 
 	interface Day {
 		day: number;
@@ -50,7 +53,7 @@
 	</section>
 
 	<section class="content">
-		<ProgressTracker completedDays={0} totalDays={12} />
+		<ProgressTracker completedDays={data.completedDays} totalDays={12} />
 
 		<div class="days-grid">
 			{#each days as day}
