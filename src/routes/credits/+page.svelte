@@ -69,10 +69,10 @@
 			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U08SF8MVC82-6e245427b039-512'
 		},
 		{
-			username: 'Arca',
-			url: 'https://arcaege.dev/',
+			username: 'William',
+			url: 'https://github.com/WilliamPrime',
 			desc: 'Day 6',
-			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U09192704Q7-8275736cf9d9-512'
+			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U089V3FL2EM-17dd06d8588d-512'
 		},
 		{
 			username: 'Astra',
