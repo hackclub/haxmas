@@ -43,8 +43,9 @@
 			htmlContent = `<h1>Day ${day} is not available yet.</h1><p>Please come back on December ${day + 12} to see the content!</p>`;
 			return;
 		}
+		const repo = day === 9 ? 'jeninh' : 'hackclub';
 		const res = await fetch(
-			`https://raw.githubusercontent.com/hackclub/hackmas-day-${day}/refs/heads/main/README.md`
+			`https://raw.githubusercontent.com/${repo}/hackmas-day-${day}/refs/heads/main/README.md`
 		);
 		if (res.ok) {
 			markdownContent = await res.text();
