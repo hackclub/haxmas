@@ -48,19 +48,14 @@
 			isLoading = false;
 			return;
 		}
-		try {
-			const res = await fetch(
-				`https://raw.githubusercontent.com/hackclub/hackmas-day-${day}/refs/heads/main/README.md`
-			);
-			if (res.ok) {
-				markdownContent = await res.text();
-				htmlContent = await marked(markdownContent);
-				isClosed = isDayClosed(day);
-			} else {
-				htmlContent = '<h1>Content not found</h1><p>The workshop content could not be loaded.</p>';
-			}
-		} catch {
-			htmlContent = '<h1>Error loading content</h1><p>Please try again later.</p>';
+		const repo = day === 9 ? 'jeninh' : 'hackclub';
+		const res = await fetch(
+			`https://raw.githubusercontent.com/${repo}/hackmas-day-${day}/refs/heads/main/README.md`
+		);
+		if (res.ok) {
+			markdownContent = await res.text();
+			htmlContent = await marked(markdownContent);
+			isClosed = isDayClosed(day);
 		}
 		isLoading = false;
 	});
