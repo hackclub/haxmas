@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$env/static/private';
 import type { PageServerLoad } from './$types';
 
@@ -37,8 +36,9 @@ interface AirtableResponse {
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
+	// If user is not authenticated, return 0 completed days
 	if (!locals.user) {
-		throw redirect(302, '/landing');
+		return { completedDays: 0 };
 	}
 
 	const filterFormula = encodeURIComponent(`{Email} = '${locals.user.email}'`);
@@ -55,7 +55,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	if (!response.ok) {
 		console.error('Airtable fetch failed:', response.statusText);
-		return { projects: [] };
+		return { completedDays: 0 };
 	}
 
 	const data: AirtableResponse = await response.json();
@@ -68,5 +68,5 @@ export const load: PageServerLoad = async ({ locals }) => {
 		status: record.fields['Automation - Status'] === '2–Submitted' ? 'Approved' : 'Pending Review'
 	}));
 
-	return { projects };
+	return { completedDays: projects.length };
 };

@@ -1,19 +1,23 @@
+<script lang="ts">
+	import Header from '$lib/Header.svelte';
+</script>
+
 <svelte:head>
 	<title>FAQ | Haxmas</title>
 </svelte:head>
 
-<section class="faq-section">
-	<div class="faq-container">
-		<h1 class="faq-title">FAQ</h1>
+<Header title="FAQ" showBack={true} />
 
+<div class="page-wrapper">
+	<div class="container">
 		<div class="faq-item">
 			<h3>How does this work?</h3>
 			<p>
 				Welcome to Haxmas; 12 days of hands-on hacking! From December 13-25, a new workshop drops
 				each day, created by a different member of the Hack Club community. Each workshop is only
-				available on its specific day (day 1's workshop on December 13, day 2's workshop on December
-				14, and so on), so make sure to participate daily! Each workshop comes with its own special
-				prize, and you'll earn snowflakes that you can redeem for stickers, swag, and more!
+				available on its specific day, so make sure to participate daily! Each workshop comes with
+				its own special prize, and you'll earn snowflakes that you can redeem for stickers, swag,
+				and more!
 			</p>
 			<p>The more days you participate, the better the rewards:</p>
 			<ul>
@@ -58,67 +62,68 @@
 		<div class="faq-item">
 			<h3>Is Haxmas free?</h3>
 			<p>
-				Yes! Haxmas is a Hack Club program and completely free to participate. Find out more at <a
-					href="https://hackclub.com">hackclub.com</a
-				>.
+				Yes! Haxmas is a Hack Club program and completely free to participate. Find out more at
+				<a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">hackclub.com</a>.
 			</p>
 		</div>
 	</div>
-</section>
+</div>
 
 <style>
-	.faq-section {
-		background-color: #f0f7ff;
-		padding: 5rem 2rem;
+	.page-wrapper {
 		min-height: 100vh;
-		box-sizing: border-box;
+		background-color: #f0f7ff;
+		padding: 5rem 1.5rem 3rem;
 	}
 
-	.faq-container {
-		max-width: 800px;
+	.container {
+		max-width: 700px;
 		margin: 0 auto;
 	}
 
-	.faq-title {
-		font-size: 2.5rem;
-		color: #000000;
-		margin: 0 0 2rem 0;
-		text-align: center;
+	.faq-item {
+		margin-bottom: 1.75rem;
+		padding-bottom: 1.75rem;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 	}
 
-	.faq-item {
-		margin-bottom: 2rem;
+	.faq-item:last-child {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	.faq-item h3 {
-		font-size: 1.25rem;
-		color: #000000;
+		font-size: 1.15rem;
+		color: #1a1a1a;
 		margin: 0 0 0.75rem 0;
+		font-weight: 600;
 	}
 
 	.faq-item p {
-		color: #000000;
+		color: #333;
 		font-size: 1rem;
 		line-height: 1.7;
 		margin: 0 0 0.5rem 0;
 	}
 
 	.faq-item ul {
-		color: #000000;
-		margin: 0.5rem 0 0 1.5rem;
+		color: #333;
+		margin: 0.75rem 0 0 1.5rem;
 		padding: 0;
 	}
 
 	.faq-item li {
-		color: #000000;
+		color: #333;
 		font-size: 1rem;
 		line-height: 1.7;
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.35rem;
 	}
 
 	.faq-item a {
 		color: #ec3750;
 		text-decoration: none;
+		font-weight: 500;
 	}
 
 	.faq-item a:hover {
@@ -126,16 +131,12 @@
 	}
 
 	@media (max-width: 768px) {
-		.faq-section {
-			padding: 3rem 1rem;
-		}
-
-		.faq-title {
-			font-size: 2rem;
+		.page-wrapper {
+			padding: 4.5rem 1rem 2rem;
 		}
 
 		.faq-item h3 {
-			font-size: 1.1rem;
+			font-size: 1.05rem;
 		}
 
 		.faq-item p,
@@ -145,12 +146,8 @@
 	}
 
 	@media (max-width: 480px) {
-		.faq-section {
-			padding: 2rem 0.75rem;
-		}
-
-		.faq-title {
-			font-size: 1.75rem;
+		.page-wrapper {
+			padding: 4rem 0.75rem 1.5rem;
 		}
 
 		.faq-item h3 {

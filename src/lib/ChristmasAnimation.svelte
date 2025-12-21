@@ -1010,8 +1010,6 @@
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
-
-
 	#container {
 		width: 100vw;
 		height: 100vh;
@@ -1060,7 +1058,7 @@
 		cursor: pointer;
 	}
 
-	:global(svg) {
+	#container svg {
 		width: 100%;
 		height: 100%;
 		overflow: visible;

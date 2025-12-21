@@ -26,12 +26,12 @@
 			<div class="faq-item">
 				<h3>How does this work?</h3>
 				<p>
-					Welcome to Haxmas; 12 days of hands-on hacking! From December 13-25, a new workshop
-					drops each day, created by a different member of the Hack Club community. Each workshop
-					is only available on its specific day (day 1's workshop on December 13, day 2's workshop
-					on December 14, and so on), so make sure to participate daily! Each workshop comes with
-					its own special prize, and you'll earn snowflakes that you can redeem for stickers,
-					swag, and more!
+					Welcome to Haxmas; 12 days of hands-on hacking! From December 13-25, a new workshop drops
+					each day, created by a different member of the Hack Club community. Each workshop is only
+					available on its specific day (day 1's workshop on December 13, day 2's workshop on
+					December 14, and so on), so make sure to participate daily! Each workshop comes with its
+					own special prize, and you'll earn snowflakes that you can redeem for stickers, swag, and
+					more!
 				</p>
 				<p>The more days you participate, the better the rewards:</p>
 				<ul>
@@ -45,8 +45,8 @@
 			<div class="faq-item">
 				<h3>What skill level do I need to participate?</h3>
 				<p>
-					No prior experience needed! Each tutorial guides you step-by-step from start to finish,
-					so you can jump right in.
+					No prior experience needed! Each tutorial guides you step-by-step from start to finish, so
+					you can jump right in.
 				</p>
 			</div>
 

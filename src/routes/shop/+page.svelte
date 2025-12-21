@@ -1,165 +1,186 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import Header from '$lib/Header.svelte';
 
 	export let data: PageData;
-
-	function goBack() {
-		window.location.href = '/';
-	}
 </script>
 
-<div class="container">
-	<h1>Shop</h1>
+<svelte:head>
+	<title>Shop | Haxmas</title>
+</svelte:head>
 
-	<div class="items-grid">
-		{#each data.items as item}
-			<div class="item-card">
-				{#if item.image}
-					<img src={item.image} alt={item.name} class="item-image" />
-				{:else}
-					<div class="item-image placeholder">Image Coming Soon</div>
-				{/if}
-				<div class="item-info">
-					<h3>{item.name}</h3>
-					<p class="cost">{item.cost}</p>
-				</div>
+<Header title="Shop" showBack={true} />
+
+<div class="page-wrapper">
+	<div class="container">
+		<p class="subtitle">Spend your snowflakes on awesome rewards!</p>
+
+		{#if !data.items || data.items.length === 0}
+			<div class="empty-state">
+				<span class="empty-icon">🛒</span>
+				<p>No items available in the shop right now.</p>
+				<p class="hint">Check back soon for new items!</p>
 			</div>
-		{/each}
+		{:else}
+			<div class="items-grid">
+				{#each data.items as item}
+					<div class="item-card">
+						{#if item.image}
+							<img src={item.image} alt={item.name} class="item-image" />
+						{:else}
+							<div class="item-image placeholder">
+								<span>Image Coming Soon</span>
+							</div>
+						{/if}
+						<div class="item-info">
+							<h3>{item.name}</h3>
+							<div class="item-cost">
+								<span class="cost-icon">❄️</span>
+								<span class="cost-value">{item.cost}</span>
+							</div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
-
-	{#if data.items.length === 0}
-		<p class="empty-message">No items available in the shop right now.</p>
-	{/if}
-
-	<button class="back-btn" on:click={goBack}>← Back</button>
 </div>
 
 <style>
-	.container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 100;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 2rem;
-		padding-bottom: 100px;
-		overflow-y: auto;
+	.page-wrapper {
+		min-height: 100vh;
 		background-color: #4285f4;
+		padding: 5rem 1.5rem 3rem;
 	}
 
-	h1 {
-		color: #fff;
-		font-size: 3rem;
-		margin-bottom: 2.5rem;
+	.container {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	.subtitle {
 		text-align: center;
-		padding: 0 1rem;
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1.1rem;
+		margin: 0 0 2rem 0;
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 3rem 2rem;
+		background: rgba(0, 0, 0, 0.15);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 12px;
+	}
+
+	.empty-icon {
+		font-size: 3rem;
+		display: block;
+		margin-bottom: 1rem;
+	}
+
+	.empty-state p {
+		color: #fff;
+		margin: 0;
+		font-size: 1.1rem;
+	}
+
+	.empty-state .hint {
+		color: rgba(255, 255, 255, 0.6);
+		font-size: 0.95rem;
+		margin-top: 0.5rem;
 	}
 
 	.items-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 2rem;
-		max-width: 1000px;
-		width: 100%;
-	}
-
-	@media (max-width: 900px) {
-		.items-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-width: 550px) {
-		.items-grid {
-			grid-template-columns: 1fr;
-			gap: 1.5rem;
-		}
-
-		h1 {
-			font-size: 1.75rem;
-			margin-bottom: 1.5rem;
-		}
+		gap: 1.25rem;
 	}
 
 	.item-card {
-		background: rgba(255, 255, 255, 0.1);
-		border: 3px solid #fff;
-		border-radius: 8px;
-		padding: 1.5rem;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-		transition: transform 0.2s, background 0.2s;
+		background: rgba(0, 0, 0, 0.15);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 10px;
+		overflow: hidden;
+		transition:
+			transform 0.2s,
+			border-color 0.2s;
+		cursor: pointer;
 	}
 
 	.item-card:hover {
 		transform: translateY(-4px);
-		background: rgba(255, 255, 255, 0.15);
+		border-color: rgba(255, 255, 255, 0.25);
 	}
 
 	.item-image {
 		width: 100%;
-		height: 180px;
+		height: 160px;
 		object-fit: cover;
-		border-radius: 6px;
 	}
 
 	.item-image.placeholder {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(255, 255, 255, 0.2);
-		color: rgba(255, 255, 255, 0.7);
-		font-size: 1rem;
+		background: rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 0.5);
+		font-size: 0.9rem;
 	}
 
 	.item-info {
-		text-align: center;
-		width: 100%;
+		padding: 1rem;
 	}
 
 	.item-card h3 {
 		color: #fff;
-		margin: 0;
-		font-size: 1.3rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.item-card .cost {
-		color: #f1c40f;
-		margin: 0;
+		margin: 0 0 0.5rem 0;
 		font-size: 1.1rem;
-		font-weight: bold;
+		font-weight: 500;
 	}
 
-	.empty-message {
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 1.2rem;
-		text-align: center;
-		margin-top: 2rem;
+	.item-cost {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
 	}
 
-	.back-btn {
-		position: fixed;
-		bottom: 2rem;
-		left: 2rem;
-		background: rgba(255, 255, 255, 0.1);
-		border: 2px solid #fff;
-		border-radius: 5px;
-		color: #fff;
-		padding: 0.75rem 1.5rem;
+	.cost-icon {
 		font-size: 1rem;
-		cursor: pointer;
-		font-family: inherit;
-		transition: background 0.2s;
 	}
 
-	.back-btn:hover {
-		background: rgba(255, 255, 255, 0.2);
+	.cost-value {
+		color: #ffd700;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	@media (max-width: 768px) {
+		.page-wrapper {
+			padding: 4.5rem 1rem 2rem;
+		}
+
+		.items-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+		}
+
+		.subtitle {
+			font-size: 1rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.page-wrapper {
+			padding: 4rem 0.75rem 1.5rem;
+		}
+
+		.items-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.item-image {
+			height: 180px;
+		}
 	}
 </style>
