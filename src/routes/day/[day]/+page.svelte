@@ -43,7 +43,7 @@
 			htmlContent = `<h1>Day ${day} is not available yet.</h1><p>Please come back on December ${day + 12} to see the content!</p>`;
 			return;
 		}
-		const repo = day === 9 ? 'jeninh' : 'hackclub';
+		const repo = day === 9 || day === 11 ? 'jeninh' : 'hackclub';
 		const res = await fetch(
 			`https://raw.githubusercontent.com/${repo}/hackmas-day-${day}/refs/heads/main/README.md`
 		);
