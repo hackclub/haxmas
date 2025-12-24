@@ -21,8 +21,8 @@
     { day: 8, url: 'https://forms.hackclub.com/haxmas-day-8', boxColor: 'hsla(-90, 50%, 40%, 1)', ribbonColor: 'hsla(90, 50%, 65%, 0.75)' },
     { day: 9, url: 'https://forms.hackclub.com/haxmas-day-9', boxColor: 'hsla(-160, 43%, 37%, 1)', ribbonColor: 'hsla(20, 43%, 62%, 0.75)' },
     { day: 10, url: 'https://forms.hackclub.com/haxmas-day-10', boxColor: 'hsla(-110, 47%, 41%, 1)', ribbonColor: 'hsla(70, 47%, 66%, 0.75)' },
-    { day: 11, url: '#', boxColor: 'hsla(-130, 45%, 39%, 1)', ribbonColor: 'hsla(50, 45%, 64%, 0.75)' },
-    { day: 12, url: '#', boxColor: 'hsla(-170, 41%, 43%, 1)', ribbonColor: 'hsla(10, 41%, 68%, 0.75)' },
+    { day: 11, url: 'https://forms.hackclub.com/haxmas-day-11', boxColor: 'hsla(-130, 45%, 39%, 1)', ribbonColor: 'hsla(50, 45%, 64%, 0.75)' },
+    { day: 12, url: 'https://forms.hackclub.com/haxmas-day-12', boxColor: 'hsla(-170, 41%, 43%, 1)', ribbonColor: 'hsla(10, 41%, 68%, 0.75)' },
   ];
 
   function goToDay(url: string) {
