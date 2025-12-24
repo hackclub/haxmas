@@ -1,1 +1,1 @@
-export const CURRENT_DAY = 11;
+export const CURRENT_DAY = 12;
