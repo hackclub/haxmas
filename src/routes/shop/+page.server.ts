@@ -40,22 +40,27 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw redirect(302, '/landing');
 	}
 
-	const response = await fetch(
-		`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop`,
-		{
+	const [shopResponse, snowflakeResponse] = await Promise.all([
+		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop`, {
 			headers: {
 				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
 				'Content-Type': 'application/json'
 			}
-		}
-	);
+		}),
+		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count`, {
+			headers: {
+				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+				'Content-Type': 'application/json'
+			}
+		})
+	]);
 
-	if (!response.ok) {
-		console.error('Airtable fetch failed:', response.statusText);
-		return { items: [] };
+	if (!shopResponse.ok) {
+		console.error('Airtable shop fetch failed:', shopResponse.statusText);
+		return { items: [], snowflakeCount: 0 };
 	}
 
-	const data: AirtableResponse = await response.json();
+	const data: AirtableResponse = await shopResponse.json();
 
 	const items: ShopItem[] = data.records
 		.map((record) => ({
@@ -67,5 +72,15 @@ export const load: PageServerLoad = async ({ locals }) => {
 		}))
 		.sort((a, b) => a.order - b.order);
 
-	return { items };
+	let snowflakeCount = 0;
+	if (snowflakeResponse.ok) {
+		const snowflakeData = await snowflakeResponse.json();
+		const userRecord = snowflakeData.records?.find(
+			(r: { fields?: { Email?: string } }) =>
+				r.fields?.Email?.trim() === locals.user.email
+		);
+		snowflakeCount = userRecord?.fields?.['Snowflake Count'] ?? 0;
+	}
+
+	return { items, snowflakeCount };
 };

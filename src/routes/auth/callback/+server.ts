@@ -47,8 +47,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 					legal_first_name: identity.legal_first_name,
 					legal_last_name: identity.legal_last_name,
 					addresses: JSON.stringify(identity.addresses || []) as unknown as undefined,
-					role: 'user'
-				})
+					admin: false
+					})
 				.returning('*');
 			user = insertedUser;
 		} else {
