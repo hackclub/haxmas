@@ -12,7 +12,8 @@ interface ShopItemRecord {
 interface ShopOrderRecord {
 	id: string;
 	fields: {
-		Name: string;
+		'First Name': string;
+		'Last Name': string;
 		Item?: string[];
 		Email: string;
 		'Address Line 1': string;
@@ -78,7 +79,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.filter((order) => !COMPLETED_STATUSES.includes(order.fields.Status ?? ''))
 		.map((order) => ({
 			id: order.id,
-			name: order.fields.Name,
+			firstName: order.fields['First Name'],
+			lastName: order.fields['Last Name'],
 			email: order.fields.Email,
 			itemId: order.fields.Item?.[0] ?? null,
 			itemName: order.fields.Item?.[0] ? (itemsMap.get(order.fields.Item[0]) ?? 'Unknown Item') : 'Unknown Item',

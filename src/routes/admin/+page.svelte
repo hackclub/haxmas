@@ -54,7 +54,10 @@
 					<strong>Item:</strong> {selectedOrder.itemName}
 				</div>
 				<div class="detail-row">
-					<strong>Shipping Name:</strong> {selectedOrder.name}
+					<strong>First Name:</strong> {selectedOrder.firstName}
+				</div>
+				<div class="detail-row">
+					<strong>Last Name:</strong> {selectedOrder.lastName}
 				</div>
 				<div class="detail-row">
 					<strong>Email:</strong> {selectedOrder.email}
@@ -128,7 +131,7 @@
 					<button class="order-card" on:click={() => selectOrder(order)}>
 						<div class="order-info">
 							<span class="order-item">{order.itemName}</span>
-							<span class="order-customer">{order.name}</span>
+							<span class="order-customer">{order.firstName} {order.lastName}</span>
 							<span class="order-email">{order.email}</span>
 						</div>
 						<span class="order-status">{order.status}</span>

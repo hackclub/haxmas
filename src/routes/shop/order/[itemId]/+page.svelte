@@ -39,8 +39,13 @@
 			{/if}
 
 			<label>
-				<span>Full Name (name you want on the mail) *</span>
-				<input type="text" name="name" required />
+				<span>First Name *</span>
+				<input type="text" name="firstName" required />
+			</label>
+
+			<label>
+				<span>Last Name *</span>
+				<input type="text" name="lastName" required />
 			</label>
 
 			<label>

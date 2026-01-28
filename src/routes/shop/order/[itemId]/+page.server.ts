@@ -98,7 +98,8 @@ export const actions: Actions = {
 		}
 
 		const formData = await request.formData();
-		const name = formData.get('name')?.toString().trim();
+		const firstName = formData.get('firstName')?.toString().trim();
+		const lastName = formData.get('lastName')?.toString().trim();
 		const addressLine1 = formData.get('addressLine1')?.toString().trim();
 		const addressLine2 = formData.get('addressLine2')?.toString().trim() || '';
 		const city = formData.get('city')?.toString().trim();
@@ -108,7 +109,7 @@ export const actions: Actions = {
 		const phoneNumber = formData.get('phoneNumber')?.toString().trim();
 		const notes = formData.get('notes')?.toString().trim() || '';
 
-		if (!name || !addressLine1 || !city || !state || !country || !zipCode || !phoneNumber) {
+		if (!firstName || !lastName || !addressLine1 || !city || !state || !country || !zipCode || !phoneNumber) {
 			return fail(400, { error: 'Please fill in all required fields' });
 		}
 
@@ -190,7 +191,8 @@ export const actions: Actions = {
 				},
 				body: JSON.stringify({
 					fields: {
-						Name: name,
+						'First Name': firstName,
+						'Last Name': lastName,
 						Item: [params.itemId],
 						Email: locals.user.email,
 						'Address Line 1': addressLine1,
