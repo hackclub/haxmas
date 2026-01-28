@@ -13,7 +13,7 @@
 
 	<section class="section">
 		<h2>Snowflakes</h2>
-		<div class="snowflakes-count">{data.user?.snowflakes ?? 0}</div>
+		<div class="snowflakes-count">{data.snowflakeCount ?? 0}</div>
 	</section>
 
 	<section class="section">

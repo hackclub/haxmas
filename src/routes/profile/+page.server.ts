@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$env/static/private';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, buildFilterFormula } from '$lib/server/airtable';
 import type { PageServerLoad } from './$types';
 
 interface AirtableAttachment {
@@ -41,32 +41,54 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw redirect(302, '/landing');
 	}
 
-	const filterFormula = encodeURIComponent(`{Email} = '${locals.user.email}'`);
+	const filterFormula = buildFilterFormula('Email', locals.user.email);
 
-	const response = await fetch(
-		`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/YSWS%20Project%20Submission?filterByFormula=${filterFormula}`,
-		{
-			headers: {
-				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-				'Content-Type': 'application/json'
+	const [projectsResponse, snowflakeResponse] = await Promise.all([
+		fetch(
+			`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/YSWS%20Project%20Submission?filterByFormula=${filterFormula}`,
+			{
+				headers: {
+					Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+					'Content-Type': 'application/json'
+				}
 			}
-		}
-	);
+		),
+		fetch(
+			`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count`,
+			{
+				headers: {
+					Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+					'Content-Type': 'application/json'
+				}
+			}
+		)
+	]);
 
-	if (!response.ok) {
-		console.error('Airtable fetch failed:', response.statusText);
-		return { projects: [] };
+	let projects: Project[] = [];
+	let snowflakeCount = 0;
+
+	if (projectsResponse.ok) {
+		const data: AirtableResponse = await projectsResponse.json();
+		projects = data.records.map((record) => ({
+			id: record.id,
+			codeUrl: record.fields['Code URL'] ?? null,
+			playableUrl: record.fields['Playable URL'] ?? null,
+			screenshot: record.fields['Screenshot']?.[0]?.url ?? null,
+			status: record.fields['Automation - Status'] === '2–Submitted' ? 'Approved' : 'Pending Review'
+		}));
+	} else {
+		console.error('Airtable projects fetch failed:', projectsResponse.statusText);
 	}
 
-	const data: AirtableResponse = await response.json();
+	if (snowflakeResponse.ok) {
+		const snowflakeData = await snowflakeResponse.json();
+		const userRecord = snowflakeData.records?.find(
+			(r: { fields?: { Email?: string } }) => r.fields?.Email?.trim() === locals.user.email
+		);
+		snowflakeCount = userRecord?.fields?.['Snowflake Count'] ?? 0;
+	} else {
+		console.error('Airtable snowflake count fetch failed:', snowflakeResponse.statusText);
+	}
 
-	const projects: Project[] = data.records.map((record) => ({
-		id: record.id,
-		codeUrl: record.fields['Code URL'] ?? null,
-		playableUrl: record.fields['Playable URL'] ?? null,
-		screenshot: record.fields['Screenshot']?.[0]?.url ?? null,
-		status: record.fields['Automation - Status'] === '2–Submitted' ? 'Approved' : 'Pending Review'
-	}));
-
-	return { projects };
+	return { projects, snowflakeCount };
 };
