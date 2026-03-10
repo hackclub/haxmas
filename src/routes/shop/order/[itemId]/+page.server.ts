@@ -1,5 +1,5 @@
 import { redirect, fail } from '@sveltejs/kit';
-import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$env/static/private';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, buildFilterFormula } from '$lib/server/airtable';
 import type { PageServerLoad, Actions } from './$types';
 
 interface AirtableAttachment {
@@ -31,6 +31,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		throw redirect(302, '/landing');
 	}
 
+	const filterFormula = buildFilterFormula('Email', locals.user.email);
+
 	const [itemResponse, snowflakeResponse] = await Promise.all([
 		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop/${params.itemId}`, {
 			headers: {
@@ -38,12 +40,15 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 				'Content-Type': 'application/json'
 			}
 		}),
-		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count`, {
-			headers: {
-				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-				'Content-Type': 'application/json'
+		fetch(
+			`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count?filterByFormula=${filterFormula}`,
+			{
+				headers: {
+					Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+					'Content-Type': 'application/json'
+				}
 			}
-		})
+		)
 	]);
 
 	if (!itemResponse.ok) {
@@ -64,9 +69,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	if (snowflakeResponse.ok) {
 		const snowflakeData = await snowflakeResponse.json();
-		const userRecord = snowflakeData.records?.find(
-			(r: SnowflakeRecord) => r.fields?.Email?.trim() === locals.user.email
-		);
+		const userRecord = snowflakeData.records?.[0];
 		if (userRecord) {
 			snowflakeCount = userRecord.fields?.['Snowflake Count'] ?? 0;
 			snowflakeRecordId = userRecord.id;
@@ -113,6 +116,8 @@ export const actions: Actions = {
 			return fail(400, { error: 'Please fill in all required fields' });
 		}
 
+		const actionFilterFormula = buildFilterFormula('Email', locals.user.email);
+
 		const [itemResponse, snowflakeResponse] = await Promise.all([
 			fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop/${params.itemId}`, {
 				headers: {
@@ -120,12 +125,15 @@ export const actions: Actions = {
 					'Content-Type': 'application/json'
 				}
 			}),
-			fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count`, {
-				headers: {
-					Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-					'Content-Type': 'application/json'
+			fetch(
+				`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count?filterByFormula=${actionFilterFormula}`,
+				{
+					headers: {
+						Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+						'Content-Type': 'application/json'
+					}
 				}
-			})
+			)
 		]);
 
 		if (!itemResponse.ok) {
@@ -146,9 +154,7 @@ export const actions: Actions = {
 		}
 
 		const snowflakeData = await snowflakeResponse.json();
-		const userRecord = snowflakeData.records?.find(
-			(r: SnowflakeRecord) => r.fields?.Email?.trim() === locals.user.email
-		);
+		const userRecord = snowflakeData.records?.[0];
 
 		if (!userRecord) {
 			return fail(400, { error: 'Snowflake balance not found' });
