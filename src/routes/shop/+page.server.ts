@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$env/static/private';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, buildFilterFormula } from '$lib/server/airtable';
 import type { PageServerLoad } from './$types';
 
 interface AirtableAttachment {
@@ -40,6 +40,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw redirect(302, '/landing');
 	}
 
+	const filterFormula = buildFilterFormula('Email', locals.user.email);
+
 	const [shopResponse, snowflakeResponse] = await Promise.all([
 		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Shop`, {
 			headers: {
@@ -47,12 +49,15 @@ export const load: PageServerLoad = async ({ locals }) => {
 				'Content-Type': 'application/json'
 			}
 		}),
-		fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count`, {
-			headers: {
-				Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-				'Content-Type': 'application/json'
+		fetch(
+			`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Snowflake%20Count?filterByFormula=${filterFormula}`,
+			{
+				headers: {
+					Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+					'Content-Type': 'application/json'
+				}
 			}
-		})
+		)
 	]);
 
 	if (!shopResponse.ok) {
@@ -75,10 +80,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	let snowflakeCount = 0;
 	if (snowflakeResponse.ok) {
 		const snowflakeData = await snowflakeResponse.json();
-		const userRecord = snowflakeData.records?.find(
-			(r: { fields?: { Email?: string } }) =>
-				r.fields?.Email?.trim() === locals.user.email
-		);
+		const userRecord = snowflakeData.records?.[0];
 		snowflakeCount = userRecord?.fields?.['Snowflake Count'] ?? 0;
 	}
 
