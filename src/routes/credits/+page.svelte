@@ -105,10 +105,10 @@
 			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U08R4KDL6UF-68444436aa76-512'
 		},
 		{
-			username: 'Miguel',
-			url: 'https://shymike.dev/',
+			username: 'Mohammed Zaid',
+			url: 'https://github.com/zaid45645',
 			desc: 'Day 12',
-			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U07VC9705D4-6113dfcf4805-512'
+			pfp: 'https://ca.slack-edge.com/E09V59WQY1E-U083VVA9M0W-09ec3a18b167-512'
 		}
 	];
 
