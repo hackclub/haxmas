@@ -41,7 +41,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		throw redirect(302, '/landing');
 	}
 
-	const filterFormula = buildFilterFormula('Email', locals.user.email);
+	const userEmail = locals.user.email;
+	const filterFormula = buildFilterFormula('Email', userEmail);
 
 	const [projectsResponse, snowflakeResponse] = await Promise.all([
 		fetch(
@@ -83,7 +84,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (snowflakeResponse.ok) {
 		const snowflakeData = await snowflakeResponse.json();
 		const userRecord = snowflakeData.records?.find(
-			(r: { fields?: { Email?: string } }) => r.fields?.Email?.trim() === locals.user.email
+			(r: { fields?: { Email?: string } }) => r.fields?.Email?.trim() === userEmail
 		);
 		snowflakeCount = userRecord?.fields?.['Snowflake Count'] ?? 0;
 	} else {

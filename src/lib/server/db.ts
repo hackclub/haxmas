@@ -5,7 +5,7 @@ export const db = knex({
 	client: 'pg',
 	connection: DATABASE_URL,
 	pool: {
-		min: 2,
+		min: 0,
 		max: 10
 	}
 });

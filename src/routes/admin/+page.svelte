@@ -39,10 +39,6 @@
 		<p class="error-message">{form.error}</p>
 	{/if}
 
-	{#if form?.success}
-		<p class="success-message">Order updated successfully!</p>
-	{/if}
-
 	{#if selectedOrder}
 		<div class="order-detail">
 			<button class="close-btn" on:click={closeDetail}>← Back to Orders</button>
@@ -170,14 +166,6 @@
 
 	.error-message {
 		background: #ec3750;
-		color: #fff;
-		padding: 0.75rem 1.5rem;
-		border-radius: 5px;
-		margin-bottom: 1rem;
-	}
-
-	.success-message {
-		background: #33d6a6;
 		color: #fff;
 		padding: 0.75rem 1.5rem;
 		border-radius: 5px;
