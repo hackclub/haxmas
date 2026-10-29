@@ -1,5 +1,5 @@
 import { redirect, fail } from '@sveltejs/kit';
-import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, buildFilterFormula } from '$lib/server/airtable';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, buildFilterFormula } from '#lib/server/airtable.js';
 import type { PageServerLoad, Actions } from './$types';
 
 interface AirtableAttachment {

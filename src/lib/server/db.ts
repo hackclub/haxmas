@@ -1,5 +1,5 @@
 import knex from 'knex';
-import { DATABASE_URL } from '$env/static/private';
+import { DATABASE_URL } from '$app/env/private';
 
 export const db = knex({
 	client: 'pg',

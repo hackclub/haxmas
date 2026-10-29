@@ -1,6 +1,6 @@
 <script lang="ts">
-	import LoginButton from '$lib/LoginButton.svelte';
-	import ChristmasAnimation from '$lib/ChristmasAnimation.svelte';
+	import LoginButton from '#lib/LoginButton.svelte';
+	import ChristmasAnimation from '#lib/ChristmasAnimation.svelte';
 </script>
 
 <div class="landing-wrapper">

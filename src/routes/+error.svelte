@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
-	import Button from '$lib/Button.svelte';
+	import ChristmasAnimationNoPresents from '#lib/ChristmasAnimationNoPresents.svelte';
+	import Button from '#lib/Button.svelte';
 	import { goto } from '$app/navigation';
 
 	function goBack() {

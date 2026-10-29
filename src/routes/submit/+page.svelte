@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ChristmasAnimationNoPresents from "$lib/ChristmasAnimationNoPresents.svelte";
-  import Button from "$lib/Button.svelte";
-  import Present from "$lib/Present.svelte";
+  import ChristmasAnimationNoPresents from "#lib/ChristmasAnimationNoPresents.svelte";
+  import Button from "#lib/Button.svelte";
+  import Present from "#lib/Present.svelte";
 
   interface Day {
     day: number;

@@ -1,4 +1,4 @@
-import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$env/static/private';
+import { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } from '$app/env/private';
 
 export { AIRTABLE_API_KEY, AIRTABLE_BASE_ID };
 

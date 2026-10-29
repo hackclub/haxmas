@@ -1,8 +1,8 @@
 import { redirect, error, isRedirect } from '@sveltejs/kit';
-import { dev } from '$app/environment';
-import { exchangeCodeForToken, getUserProfile } from '$lib/server/oauth';
-import { db, type User } from '$lib/server/db';
-import { createSession } from '$lib/server/session';
+import { dev } from '$app/env';
+import { exchangeCodeForToken, getUserProfile } from '#lib/server/oauth.js';
+import { db, type User } from '#lib/server/db.js';
+import { createSession } from '#lib/server/session.js';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url, cookies }) => {

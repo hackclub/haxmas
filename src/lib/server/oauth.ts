@@ -2,7 +2,7 @@ import {
 	HACKCLUB_CLIENT_ID,
 	HACKCLUB_CLIENT_SECRET,
 	HACKCLUB_REDIRECT_URI
-} from '$env/static/private';
+} from '$app/env/private';
 
 const AUTHORIZE_URL = 'https://auth.hackclub.com/oauth/authorize';
 const TOKEN_URL = 'https://auth.hackclub.com/oauth/token';

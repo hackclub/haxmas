@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { randomBytes } from 'crypto';
-import { getAuthorizationUrl } from '$lib/server/oauth';
-import { dev } from '$app/environment';
+import { getAuthorizationUrl } from '#lib/server/oauth.js';
+import { dev } from '$app/env';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ cookies }) => {
@@ -16,5 +16,5 @@ export const GET: RequestHandler = async ({ cookies }) => {
 	});
 
 	const authUrl = getAuthorizationUrl(state);
-	throw redirect(302, authUrl);
+	throw redirect(302, authUrl, { external: ['https://auth.hackclub.com'] });
 };

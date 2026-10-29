@@ -1,8 +1,4 @@
 <script lang="ts">
-	import ChristmasAnimationNoPresents from '$lib/ChristmasAnimationNoPresents.svelte';
-	import Button from '$lib/Button.svelte';
-	import Present from '$lib/Present.svelte';
-
 	interface Person {
 		username: string;
 		url: string;

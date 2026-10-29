@@ -1,5 +1,5 @@
-import type { Handle } from '@sveltejs/kit';
-import { getSessionUser } from '$lib/server/session';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { getSessionUser } from '#lib/server/session.js';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('session_id');
